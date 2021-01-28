@@ -1,0 +1,6 @@
+module Pods_sayembara {
+  umbrella header "Pods-sayembara-umbrella.h"
+
+  export *
+  module * { export * }
+}
