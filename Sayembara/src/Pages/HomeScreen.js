@@ -35,11 +35,10 @@ const Contest = (props) => (
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.textContest}>Posted </Text>
           <Text style={{ ...styles.textContest, fontWeight: "bold" }}>
-            {moment(props.createdTime)
-              .startOf("day")
-              .fromNow()
-            //   .format("dddd, Do MMMM YYYY")
-            }
+            {moment(props.posted)
+              // .startOf("day")
+              // .fromNow()
+              .format("dddd, Do MMMM YYYY")}
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
