@@ -48,10 +48,11 @@ export const updateProfile = (
   photoName,
   photoType
 ) => {
+  const FormData = require("form-data");
   const dataForm = new FormData();
-  dataForm.append("image", {
-    uri: photo,
+  dataForm.append("picture", {
     name: photoName,
+    uri: photo,
     type: photoType,
   });
   dataForm.append("first_name", firstname);
@@ -59,7 +60,7 @@ export const updateProfile = (
   dataForm.append("bank", bank);
   dataForm.append("acc_number", account_number);
   dataForm.append("location", location);
-  dataForm.append("picture", picture);
+  // dataForm.append("picture", picture);
 
   return async (dispatch) => {
     try {
@@ -69,7 +70,11 @@ export const updateProfile = (
         {
           headers: {
             Authorization: `bearer ${token}`,
-            ...dataForm.getHeaders(),
+            "Content-Type":
+              "multipart/form-data; " + "boundary=" + data._boundary,
+            accept: "application/json",
+            // 'Content-Type': 'application/json'
+            // ...dataForm.getHeaders(),
           },
           data: dataForm,
         }

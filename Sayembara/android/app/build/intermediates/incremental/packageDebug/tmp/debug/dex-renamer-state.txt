@@ -1,4 +1,4 @@
-#Wed Jan 27 10:42:41 ICT 2021
-base.0=E\:\\PROJECT\\BigProject\\Download\\Sayembara\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+#Fri Jan 29 00:26:00 ICT 2021
+base.0=E\:\\PROJECT\\BigProject\\Github\\Realizdea\\Sayembara\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

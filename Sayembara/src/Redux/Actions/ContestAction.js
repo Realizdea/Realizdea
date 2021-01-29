@@ -2,37 +2,66 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Axios from "axios"
 
 const BASE_URL = "https://sayembara.herokuapp.com"
+const NEW_URL = "https://realizdea.kuyrek.com"
 
 export const getContest = () => {
     return async dispatch => {
         try {
-            const resContest = await Axios.get(`${BASE_URL}/api/v1/contest?limit=10&page=1`)
-            const dataContest = resContest.data.data.rows
+            const resContest = await Axios.post(`${NEW_URL}/contest/getAllContest?page=1`,{
+                // headers: {
+                //     // Authorization: res.data.token
+                //     Authorization: `bearer ${token}`
+                // }
+                 
+                    contest : "logo"
+                
+            })
+            // console.log(resContest.data.result)
+            const dataContest = resContest.data.result
+
 
             if (resContest.status == 200) {
                 dispatch({ type: "GET_ALL_CONTEST", allContest: dataContest })
                 console.log("data Router", dataContest)
+                                             // ${BASE_URL}/api/v1/contest/detail/1?limit=10&page=1`
+                const resDetailContest = await Axios.post(`${NEW_URL}contest/getAllContest?page=1`)
+                const dataDetailContest = resDetailContest.data.result
+                console.log(dataDetailContest, "data detail contest")
+                // const submission = resDetailContest.data.data.detail_submission
+                // if (resDetailContest.status == 200 && resDetailContest.data.data !== null) {
+                //     dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+                //     dispatch({ type: "LOADING" })
+                //     console.log("data detailsss", dataDetailContest)
+                //     console.log("data submission", submission)
+                //     console.log("data submissionssss", resDetailContest.data.data)
 
-                const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/1?limit=10&page=1`)
-                const dataDetailContest = resDetailContest.data.data
-                const submission = resDetailContest.data.data.detail_submission
-                if (resDetailContest.status == 200 && resDetailContest.data.data !== null) {
-                    dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
-                    dispatch({ type: "LOADING" })
-                    console.log("data detailsss", dataDetailContest)
-                    console.log("data submission", submission)
-                    console.log("data submissionssss", resDetailContest.data.data)
+                // }else {
+                //     dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+                //     dispatch({ type: "LOADING" })
+                //     console.log("data kosong")
 
-                }else {
-                    dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
-                    dispatch({ type: "LOADING" })
-                    console.log("data kosong")
+                // }
 
-                }
+                // const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/1?limit=10&page=1`)
+                // const dataDetailContest = resDetailContest.data.data
+                // const submission = resDetailContest.data.data.detail_submission
+                // if (resDetailContest.status == 200 && resDetailContest.data.data !== null) {
+                //     dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+                //     dispatch({ type: "LOADING" })
+                //     console.log("data detailsss", dataDetailContest)
+                //     console.log("data submission", submission)
+                //     console.log("data submissionssss", resDetailContest.data.data)
+
+                // }else {
+                //     dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+                //     dispatch({ type: "LOADING" })
+                //     console.log("data kosong")
+
+                // }
             }
 
         } catch (error) {
-            console.log(error)
+            console.log(error.data)
         }
     }
 }
@@ -40,11 +69,13 @@ export const getContest = () => {
 export const getAllContest = (title) => {
     return async dispatch => {
         try {           
-            const resContest = await Axios.get(`${BASE_URL}/api/v1/contest?limit=10&page=1&title=${title}`)
-            const dataContest = resContest.data.data.rows
-
+            // /api/v1/contest?limit=10&page=1&title=
+            const resContest = await Axios.post(`${NEW_URL}/contest/getAllContest?page=1&title=${title}`)
+            const dataContest = resContest.data.result
+            // data.data.rows
+            dispatch({ type: "GET_ALL_CONTEST", allContest: dataContest })
             if (resContest.status == 200 && dataContest !== "not found") {
-                dispatch({ type: "GET_ALL_CONTEST", allContest: dataContest })
+                
                 // console.log("data Router search", dataContest)
                 dispatch({ type: "LOADING" })
             } else {
@@ -59,51 +90,51 @@ export const getAllContest = (title) => {
     }
 }
 
-export const getDetailContest = (idContest) => {
-    return async dispatch => {
-        try {
-            const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/${idContest}?limit=10&page=1`)
-            const dataDetailContest = resDetailContest.data.data
-            const submission = resDetailContest.data.data.detail_submission
-            if (resDetailContest.status == 200) {
-                dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
-                dispatch({ type: "LOADING" })
-                console.log("data detailsss1", dataDetailContest)
-                console.log("data submission1", submission)
-                console.log("data my contest detail1", resDetailContest.data.data)
+// export const getDetailContest = (idContest) => {
+//     return async dispatch => {
+//         try {
+//             const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/${idContest}?limit=10&page=1`)
+//             const dataDetailContest = resDetailContest.data.data
+//             const submission = resDetailContest.data.data.detail_submission
+//             if (resDetailContest.status == 200) {
+//                 dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+//                 dispatch({ type: "LOADING" })
+//                 console.log("data detailsss1", dataDetailContest)
+//                 console.log("data submission1", submission)
+//                 console.log("data my contest detail1", resDetailContest.data.data)
 
-            }
+//             }
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-}
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }
 
-export const getDetailContestWithToken = (idContest, token) => {
-    return async dispatch => {
-        try {
-            const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/${idContest}?limit=10&page=1`,  {
-                headers: {
-                    Authorization: token
-                }
-            })
-            const dataDetailContest = resDetailContest.data.data
-            const submission = resDetailContest.data.data.detail_submission
-            if (resDetailContest.status == 200) {
-                dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
-                dispatch({ type: "LOADING" })
-                console.log("data detailsss", dataDetailContest)
-                console.log("data submission", submission)
-                console.log("data my contest detail", resDetailContest.data.data)
+// export const getDetailContestWithToken = (idContest, token) => {
+//     return async dispatch => {
+//         try {
+//             const resDetailContest = await Axios.get(`${BASE_URL}/api/v1/contest/detail/${idContest}?limit=10&page=1`,  {
+//                 headers: {
+//                     Authorization: token
+//                 }
+//             })
+//             const dataDetailContest = resDetailContest.data.data
+//             const submission = resDetailContest.data.data.detail_submission
+//             if (resDetailContest.status == 200) {
+//                 dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest, submission: submission })
+//                 dispatch({ type: "LOADING" })
+//                 console.log("data detailsss", dataDetailContest)
+//                 console.log("data submission", submission)
+//                 console.log("data my contest detail", resDetailContest.data.data)
 
-            }
+//             }
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-}
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }
 
 export const getMyContest = (token) => {
     return async dispatch => {
