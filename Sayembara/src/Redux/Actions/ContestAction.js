@@ -1,47 +1,51 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Axios from "axios";
 
-const BASE_URL = "https://sayembara.herokuapp.com";
+// const BASE_URL = "https://sayembara.herokuapp.com";
 const NEW_URL = "https://realizdea.kuyrek.com";
 
-export const getContest = () => {
+export const getContest = (token) => {
   return async (dispatch) => {
     try {
+      //menampilkan result dari getContest
       const resContest = await Axios.post(
         `${NEW_URL}/contest/getAllContest?page=1`,
         {
-          // headers: {
-          //     // Authorization: res.data.token
-          //     Authorization: `bearer ${token}`
-          // }
-
           contest: "logo",
         }
       );
+      // const resSubmission = await Axios.get(
+      //   `${NEW_URL}/contest/submission/1?page=1`,
+      //   {
+      //     headers: {
+      //       Authorization: `bearer ${token}`,
+      //     },
+      //   }
+      // );
       // console.log(resContest.data.result)
       const dataContest = resContest.data.result;
-
       if (resContest.status == 200) {
         dispatch({ type: "GET_ALL_CONTEST", allContest: dataContest });
         console.log("data Router", dataContest);
-        // ${BASE_URL}/api/v1/contest/detail/1?limit=10&page=1`
+
         const resDetailContest = await Axios.post(
           `${NEW_URL}/contest/getAllContest?page=1`
         );
         const dataDetailContest = resDetailContest.data.result.prize;
-        if (
-          resDetailContest.message == 200 &&
-          resDetailContest.data.result !== null
-        ) {
-          dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest });
-          dispatch({ type: "LOADING" });
+        // const submission = resSubmission.data.result;
+        if (resDetailContest.status == 200) {
+          dispatch({
+            type: "GET_DETAIL_CONTEST",
+            payload: dataDetailContest,
+          });
+          // dispatch({ type: "LOADING" });
           console.log("data detailsss", dataDetailContest);
         } else {
           dispatch({
             type: "GET_DETAIL_CONTEST",
             payload: dataDetailContest,
           });
-          dispatch({ type: "LOADING" });
+          // dispatch({ type: "LOADING" });
           console.log("data kosong");
         }
         console.log(dataDetailContest, "data detail contest line 47");
@@ -86,7 +90,7 @@ export const getContest = () => {
     }
   };
 };
-
+//untuk menampilkan semua kontes
 export const getAllContest = (title) => {
   return async (dispatch) => {
     try {
@@ -99,9 +103,9 @@ export const getAllContest = (title) => {
       dispatch({ type: "GET_ALL_CONTEST", allContest: dataContest });
       if (resContest.status == 200 && dataContest !== "not found") {
         // console.log("data Router search", dataContest)
-        dispatch({ type: "LOADING" });
+        // dispatch({ type: "LOADING" });
       } else {
-        dispatch({ type: "LOADING" });
+        // dispatch({ type: "LOADING" });
         dispatch({ type: "GET_ALL_CONTEST", allContest: [] });
         dispatch({ type: "TOAST", toastMessage: "Data not found" });
       }
@@ -122,7 +126,7 @@ export const getDetailContest = (idContest) => {
       // const submission = resDetailContest.data.data.detail_submission
       if (resDetailContest.status == 200) {
         dispatch({ type: "GET_DETAIL_CONTEST", payload: dataDetailContest });
-        dispatch({ type: "LOADING" });
+        // dispatch({ type: "LOADING" });
         console.log("data detailsss1", dataDetailContest);
         console.log("data submission1");
         console.log(
@@ -280,6 +284,29 @@ export const sendSubmission = (
           type: "TOAST",
           toastMessage: "Failed, you should upload 3 image, try again!",
         });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: "LOADING" });
+      dispatch({
+        type: "TOAST",
+        toastMessage: "Failed, you should upload 3 image, try again!",
+      });
+    }
+  };
+};
+
+export const getSubmissions = () => {
+  return async (dispatch) => {
+    try {
+      const resSubmission = await Axios.get(
+        `${NEW_URL}/contest/submission/1?page=1`
+      );
+      const dataSubmission = resSubmission.data.result;
+
+      if (resSubmission.status == 200 && dataSubmission !== NULL) {
+        dispatch({ type: "GET_SUBMISSION", submission: submission });
+        // console.log("data Router search", dataContest)
       }
     } catch (error) {
       console.log(error);

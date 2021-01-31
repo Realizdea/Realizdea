@@ -12,7 +12,7 @@ import {
 import { Picker } from "@react-native-community/picker";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 import {
   getContest,
   getMyContest,
@@ -35,17 +35,20 @@ const Contest = (props) => (
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.textContest}>Posted </Text>
           <Text style={{ ...styles.textContest, fontWeight: "bold" }}>
-            {moment(props.posted)
+            {props.posted}
+
+            {/* {moment(props.posted)
               // .startOf("day")
               // .fromNow()
-              .format("dddd, Do MMMM YYYY")}
+              .format("dddd, Do MMMM YYYY")} */}
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Icons name="calendar-clock" size={19} color="red" />
           <Text style={{ ...styles.textContest, color: "red" }}>
             {" "}
-            {moment(props.due_date).format("dddd, Do MMMM YYYY")}
+            {props.due_date}
+            {/* {moment(props.due_date).format("dddd, Do MMMM YYYY")} */}
           </Text>
         </View>
       </View>

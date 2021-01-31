@@ -2,8 +2,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Axios from "axios";
 import { useSelector } from "react-redux";
 const BASE_URL = "https://realizdea.kuyrek.com";
-// const TOKEN_URL =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJmdWxsbmFtZSI6IlNlbGkgUm9zcmlhbmEiLCJpZF9yb2xlIjoyfSwiaWF0IjoxNjEwNjUxNzc3fQ.sOYqcBKjmY1I5jWtEd62BFOWqrlgooDiLM3AIAwXT1E";
 
 export const getProfile = (token, userId) => {
   //   const TOKEN_URL = useSelector((state) => state.auth.token);

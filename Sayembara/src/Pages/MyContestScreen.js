@@ -11,7 +11,7 @@ import {
 import { Picker } from "@react-native-community/picker";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+// import moment from "moment";
 
 export default function MyContestScreen({ navigation }) {
   const token = useSelector((state) => state.auth.token);
@@ -96,7 +96,7 @@ export default function MyContestScreen({ navigation }) {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <Contest
-                createdTime={item.createdAt}
+                posted={item.posted}
                 desc={item.description}
                 prize={item.prize}
                 title={item.title}
@@ -121,7 +121,7 @@ export default function MyContestScreen({ navigation }) {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <Contest
-                createdTime={item.createdAt}
+                posted={item.posted}
                 desc={item.description}
                 prize={item.prize}
                 title={item.title}
@@ -146,7 +146,7 @@ export default function MyContestScreen({ navigation }) {
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <Contest
-                createdTime={item.createdAt}
+                posted={item.posted}
                 desc={item.description}
                 prize={item.prize}
                 title={item.title}
@@ -182,18 +182,22 @@ const Contest = (props) => (
         }}
       >
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.textContest}>Posted </Text>
+          <Text style={styles.textContest}>Posted: {"\n"} </Text>
+
           <Text style={{ ...styles.textContest, fontWeight: "bold" }}>
-            {moment(props.createdTime)
+            {props.posted}
+            {/* {moment(props.createdTime)
               .startOf("day")
-              .fromNow()}
+              .fromNow()} */}
           </Text>
         </View>
+
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Icons name="calendar-clock" size={19} color="red" />
           <Text style={{ ...styles.textContest, color: "red" }}>
             {" "}
-            {moment(props.due_date).format("dddd, Do MMMM YYYY")}
+            {props.due_date}
+            {/* {moment(props.due_date).format("dddd, Do MMMM YYYY")} */}
           </Text>
         </View>
       </View>
@@ -281,5 +285,6 @@ const styles = StyleSheet.create({
   },
   textContest: {
     fontSize: 12,
+    height: 24,
   },
 });
